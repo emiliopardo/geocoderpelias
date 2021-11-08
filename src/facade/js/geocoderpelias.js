@@ -55,7 +55,7 @@ export default class Geocoderpelias extends M.Plugin {
     // panel para agregar control - no obligatorio
     this.panel_ = new M.ui.Panel('panelGeocoderpelias', {
       collapsible: true,
-      className: 'geocoder-pelias',
+      className: 'm-geocoderpelias',
       position: M.ui.position.TR,
       collapsedButtonClass: 'g-cartografia-prismaticos',
     });
