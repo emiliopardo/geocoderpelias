@@ -49,13 +49,15 @@ export default class Geocoderpelias extends M.Plugin {
    * @api stable
    */
   addTo(map) {
-    this.controls_.push(new GeocoderpeliasControl());
+    this.control_ = new GeocoderpeliasControl()
+    this.controls_.push(this.control_);
     this.map_ = map;
     // panel para agregar control - no obligatorio
     this.panel_ = new M.ui.Panel('panelGeocoderpelias', {
       collapsible: true,
+      className: 'geocoder-pelias',
       position: M.ui.position.TR,
-      collapsedButtonClass: 'g-cartografia-flecha-izquierda',
+      collapsedButtonClass: 'g-cartografia-prismaticos',
     });
     this.panel_.addControls(this.controls_);
     map.addPanels(this.panel_);
