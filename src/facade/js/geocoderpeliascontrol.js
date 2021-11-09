@@ -30,20 +30,27 @@ export default class GeocoderpeliasControl extends M.Control {
     this.url = this.config.url
     this.autocompleteEndPoint = 'autocomplete?'
 
-    // Punto de tamaño 5 con relleno verde semitransparente y borde rojo
+    // Punto de tamaño 5 con relleno verde semitransparente y borde verde
     this.pointStyle = new M.style.Point({
       radius: 5,
       fill: {
-        color: 'green',
+        color: '#00FF00',
         opacity: 0.5
       },
       stroke: {
-        color: 'green'
+        color: '#00FF00'
       }
     });
 
-
-
+    this.geoJSON = new M.layer.GeoJSON({
+      source: {
+        'crs': { 'properties': { 'name': 'EPSG:25830' }, 'type': 'name' },
+        // Se añade su notacion GeoJSON
+        'features': [],
+        'type': 'FeatureCollection'
+      },
+      name: 'prueba'
+    });
   }
 
   /**
@@ -131,6 +138,8 @@ export default class GeocoderpeliasControl extends M.Control {
     this.clearButon.addEventListener('click', () => {
       this.inputTextSearch.value = null;
       this.resultPanel.style.display = 'none';
+      this.featuresArray = [];
+      this.map_.removeLayers(this.geoJSON)
     })
 
     this.searchButon.addEventListener('click', () => {
@@ -138,12 +147,12 @@ export default class GeocoderpeliasControl extends M.Control {
     })
 
     this.resultPanel.addEventListener('click', (e) => {
-      this.map_.removeLayers(capaGeoJSON);
+      this.map_.removeLayers(this.geoJSON);
       let element = e.target;
       this.inputTextSearch.value = e.target.textContent;
       let coordinates = element.dataset.coordinates.split(',');
 
-      let miFeature = new M.Feature('feature_1', {
+      let feature = new M.Feature('feature_1', {
         'type': 'Feature',
         'id': 'feature_1',
         'geometry': {
@@ -158,19 +167,19 @@ export default class GeocoderpeliasControl extends M.Control {
         }
       });
 
-      let capaGeoJSON = new M.layer.GeoJSON({
-        source: {
-          'crs': { 'properties': { 'name': 'EPSG:4258' }, 'type': 'name' },
-          // Se añade su notacion GeoJSON
-          'features': [miFeature.getGeoJSON()],
-          'type': 'FeatureCollection'
-        },
-        name: 'prueba'
+
+      feature.setStyle(this.pointStyle);
+      this.geoJSON.addFeatures(feature);
+      this.map_.addLayers(this.geoJSON);
+      this.geoJSON.setStyle(this.pointStyle)
+      console.log(this.geoJSON)
+      this.map_.setCenter({
+        x: this.geoJSON.getFeatures()[0].getGeometry().coordinates[0],
+        y: this.geoJSON.getFeatures()[0].getGeometry().coordinates[1],
+        draw: true
       });
 
-      capaGeoJSON.setStyle(this.pointStyle)
-
-      this.map_.addLayers(capaGeoJSON);
+      this.map_.setZoom(10);
     });
 
 
@@ -184,7 +193,7 @@ export default class GeocoderpeliasControl extends M.Control {
     M.remote.get(encodeURI(completeUrl + query)).then((res) => {
       let response = JSON.parse(res.text);
       if (response) {
-        console.log(response)
+        // console.log(response)
         this.parseAutoCompleteResponse(response)
       }
     })
