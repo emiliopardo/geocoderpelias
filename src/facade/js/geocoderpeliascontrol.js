@@ -28,6 +28,20 @@ export default class GeocoderpeliasControl extends M.Control {
 
     this.config = config;
     this.url = this.config.url
+    this.autocompleteEndPoint = 'autocomplete?'
+
+    // Punto de tamaño 5 con relleno verde semitransparente y borde rojo
+    this.pointStyle = new M.style.Point({
+      radius: 5,
+      fill: {
+        color: 'green',
+        opacity: 0.5
+      },
+      stroke: {
+        color: 'green'
+      }
+    });
+
 
 
   }
@@ -41,31 +55,13 @@ export default class GeocoderpeliasControl extends M.Control {
    * @api stable
    */
   createView(map) {
-
-    console.log(this.url);
-    if (!M.template.compileSync) { // JGL: retrocompatibilidad Mapea4
-      M.template.compileSync = (string, options) => {
-        let templateCompiled;
-        let templateVars = {};
-        let parseToHtml;
-        if (!M.utils.isUndefined(options)) {
-          templateVars = M.utils.extends(templateVars, options.vars);
-          parseToHtml = options.parseToHtml;
-        }
-        const templateFn = Handlebars.compile(string);
-        const htmlText = templateFn(templateVars);
-        if (parseToHtml !== false) {
-          templateCompiled = M.utils.stringToHtml(htmlText);
-        } else {
-          templateCompiled = htmlText;
-        }
-        return templateCompiled;
-      };
-    }
-    
+    //let templateVars = { vars: { title: this.title, fields: this.fields } };  
+    let templateVars = { vars: {} };
     return new Promise((success, fail) => {
-      const html = M.template.compileSync(template);
+      const html = M.template.compileSync(template, templateVars);
       // Añadir código dependiente del DOM
+      this.element = html;
+      this.addEvents(html)
       success(html);
     });
   }
@@ -119,4 +115,98 @@ export default class GeocoderpeliasControl extends M.Control {
   }
 
   // Add your own functions
+
+  addEvents(html) {
+    //query Selectors
+    this.clearButon = html.querySelectorAll('button.m-clear-btn')[0]
+    this.searchButon = html.querySelectorAll('button.m-search-btn')[0]
+    this.inputTextSearch = html.querySelectorAll('input[type=text].m-geocoderpelias-input-text')[0];
+    this.resultPanel = html.querySelectorAll('div.m-geocoderpelias-result-panel')[0];
+
+    // Add Event Listener
+    this.inputTextSearch.addEventListener('keypress', () => {
+      this.autoCompleteAction(this.inputTextSearch.value)
+    })
+
+    this.clearButon.addEventListener('click', () => {
+      this.inputTextSearch.value = null;
+      this.resultPanel.style.display = 'none';
+    })
+
+    this.searchButon.addEventListener('click', () => {
+      console.log('buscar')
+    })
+
+    this.resultPanel.addEventListener('click', (e) => {
+      this.map_.removeLayers(capaGeoJSON);
+      let element = e.target;
+      this.inputTextSearch.value = e.target.textContent;
+      let coordinates = element.dataset.coordinates.split(',');
+
+      let miFeature = new M.Feature('feature_1', {
+        'type': 'Feature',
+        'id': 'feature_1',
+        'geometry': {
+          'type': 'Point',
+          'coordinates': [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
+        },
+        'properties': {
+          'via': decodeURIComponent(element.dataset.street),
+          'numero': decodeURIComponent(element.dataset.housenumber),
+          'municipio': decodeURIComponent(element.dataset.locality),
+          'provincia': decodeURIComponent(element.dataset.region),
+        }
+      });
+
+      let capaGeoJSON = new M.layer.GeoJSON({
+        source: {
+          'crs': { 'properties': { 'name': 'EPSG:4258' }, 'type': 'name' },
+          // Se añade su notacion GeoJSON
+          'features': [miFeature.getGeoJSON()],
+          'type': 'FeatureCollection'
+        },
+        name: 'prueba'
+      });
+
+      capaGeoJSON.setStyle(this.pointStyle)
+
+      this.map_.addLayers(capaGeoJSON);
+    });
+
+
+
+  }
+
+  autoCompleteAction(value) {
+    let completeUrl = this.url + this.autocompleteEndPoint;
+    let query = 'text=' + value + '&layers=address,street,venue&sources=ieca';
+
+    M.remote.get(encodeURI(completeUrl + query)).then((res) => {
+      let response = JSON.parse(res.text);
+      if (response) {
+        console.log(response)
+        this.parseAutoCompleteResponse(response)
+      }
+    })
+  }
+
+  showSearchResult() {
+    if (this.resultPanel.style.display != 'block') {
+      this.resultPanel.style.display = 'block';
+    }
+  }
+
+  parseAutoCompleteResponse(response) {
+    let htmlParseElement = '<div class="results" id="m-autcomplete">';
+    if (response.type == 'FeatureCollection') {
+      let features = response.features
+      for (let index = 0; index < features.length; index++) {
+        const element = features[index];
+        htmlParseElement += '<div class="result autocomplete" data-locality=' + encodeURIComponent(element.properties.locality) + ' data-region=' + encodeURIComponent(element.properties.region) + ' data-street=' + encodeURIComponent(element.properties.street) + ' data-housenumber=' + encodeURIComponent(element.properties.housenumber) + ' data-coordinates=' + element.geometry.coordinates + '><i class="result-icon g-cartografia-pin5"></i>' + element.properties.label + '</div>';
+      }
+    }
+    this.resultPanel.innerHTML = htmlParseElement
+    this.resultPanel.innerHTML += '</div>'
+    this.showSearchResult();
+  }
 }
