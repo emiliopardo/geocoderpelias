@@ -4,6 +4,10 @@ const map = M.map({
   container: 'mapjs',
 });
 
-const mp = new Geocoderpelias();
+const configPelias = {
+  url: 'https://geocoder-5-ign.larioja.org/v1/'
+}
+
+const mp = new Geocoderpelias(configPelias);
 
 map.addPlugin(mp);

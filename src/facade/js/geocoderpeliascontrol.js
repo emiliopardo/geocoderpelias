@@ -1,3 +1,5 @@
+
+/* eslint-disable no-console */
 /**
  * @module M/control/GeocoderpeliasControl
  */
@@ -15,7 +17,7 @@ export default class GeocoderpeliasControl extends M.Control {
    * @extends {M.Control}
    * @api stable
    */
-  constructor() {
+  constructor(config) {
     // 1. checks if the implementation can create PluginControl
     if (M.utils.isUndefined(GeocoderpeliasImplControl)) {
       M.exception('La implementación usada no puede crear controles GeocoderpeliasControl');
@@ -24,10 +26,10 @@ export default class GeocoderpeliasControl extends M.Control {
     const impl = new GeocoderpeliasImplControl();
     super(impl, 'Geocoderpelias');
 
-    // captura de customevent lanzado desde impl con coords
-    window.addEventListener('mapclicked', (e) => {
-      this.map_.addLabel('Hola Mundo!', e.detail);
-    });
+    this.config = config;
+    this.url = this.config.url
+
+
   }
 
   /**
@@ -39,6 +41,8 @@ export default class GeocoderpeliasControl extends M.Control {
    * @api stable
    */
   createView(map) {
+
+    console.log(this.url);
     if (!M.template.compileSync) { // JGL: retrocompatibilidad Mapea4
       M.template.compileSync = (string, options) => {
         let templateCompiled;
@@ -76,12 +80,6 @@ export default class GeocoderpeliasControl extends M.Control {
   activate() {
     // calls super to manage de/activation
     super.activate();
-    const div = document.createElement('div');
-    div.id = 'msgInfo';
-    div.classList.add('info');
-    div.innerHTML = 'Haz doble click sobre el mapa';
-    this.map_.getContainer().appendChild(div);
-
     this.getImpl().activateClick(this.map_);
   }
   /**
@@ -94,9 +92,6 @@ export default class GeocoderpeliasControl extends M.Control {
   deactivate() {
     // calls super to manage de/activation
     super.deactivate();
-    const div = document.getElementById('msgInfo');
-    this.map_.getContainer().removeChild(div);
-
     this.getImpl().deactivateClick(this.map_);
   }
   /**

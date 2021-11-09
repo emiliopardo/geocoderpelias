@@ -16,7 +16,7 @@ export default class Geocoderpelias extends M.Plugin {
    * @param {Object} impl implementation object
    * @api stable
    */
-  constructor() {
+  constructor(config) {
     super();
     /**
      * Facade of the map
@@ -31,6 +31,7 @@ export default class Geocoderpelias extends M.Plugin {
      * @type {Array<M.Control>}
      */
     this.controls_ = [];
+    this.config = config
 
     /**
      * Metadata from api.json
@@ -49,7 +50,7 @@ export default class Geocoderpelias extends M.Plugin {
    * @api stable
    */
   addTo(map) {
-    this.control_ = new GeocoderpeliasControl()
+    this.control_ = new GeocoderpeliasControl(this.config)
     this.controls_.push(this.control_);
     this.map_ = map;
     // panel para agregar control - no obligatorio
