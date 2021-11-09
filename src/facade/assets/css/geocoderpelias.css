@@ -53,12 +53,6 @@
   width: 100% !important;
 }
 
-#m-geocoderpelias-response {
-  display: block;
-  background-color: #ffffff !important;
-  width: 100% !important;
-}
-
 div.m-geocoderpelias > input.m-input-search {
   width: 100%;
   margin: 0px;
@@ -79,8 +73,37 @@ div.m-geocoderpelias > input.m-input-search {
   color: #6c6c6c;
   font-family: Muli, "sans-serif" !important;
   font-size: 13px;
-  width: calc(40vw - 105px) !important;
+  width: calc(40vw - 140px) !important;
 }
 
+.m-geocoderpelias-result-panel {
+  background-color: #F9F9F9;
+  z-index: 1000;
+  position: absolute !important;
+  width: 99%;
+}
 
-/* https://geocoder-5-ign.larioja.org/v1/autocomplete?text=Sevilla&layers=address%2Cstreet%2Cvenue */
+div.m-geocoderpelias-result-panel>div.results {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-top: 5px;
+  max-height: 75vh;
+}
+
+div.m-geocoderpelias-result-panel>div.results>div.result.autocomplete {
+  padding: 7px;
+  border: 1px solid #EBF1EB;
+  cursor: pointer;
+}
+
+div.m-geocoderpelias-result-panel>div.results>div.result.autocomplete:hover {
+  background-color: #eee;
+}
+
+.result-icon{
+  padding: 5px !important;
+
+}
