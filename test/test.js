@@ -27,3 +27,5 @@ const configPelias = {
 const mp = new Geocoderpelias(configPelias);
 
 map.addPlugin(mp);
+
+map.addPlugin(new M.plugin.Searchstreet({}));
