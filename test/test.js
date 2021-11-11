@@ -37,8 +37,8 @@ const map = M.map({
     cdauViasPortales
   ],
   controls: ['Panzoombar', 'layerswitcher', 'mouse', 'scale', 'scaleline'],
-  //projection: "EPSG:25830*m",
-  projection: "EPSG:4326*d",
+  projection: "EPSG:25830*m",
+  //projection: "EPSG:4326*d",
 });
 
 const configPelias = {
