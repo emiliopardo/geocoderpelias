@@ -143,9 +143,6 @@ export default class GeocoderpeliasControl extends M.Control {
     })
 
     this.resultPanel.addEventListener('click', (e) => {
-      if (this.geoJSON) {
-        this.map_.removeLayers(this.geoJSON);
-      }
       let element = e.target;
       let featureId = element.dataset.feature;
       this.selectRecord(featureId)
@@ -229,26 +226,35 @@ export default class GeocoderpeliasControl extends M.Control {
   }
 
   buildGeoJSON(selectedFeatures) {
+    let featJSON = selectedFeatures[0].getGeoJSON();
+    this.map_.removeLayers(this.geoJSON);
+    if (this.geoJSON) {
+      this.map_.removeLayers(this.geoJSON);
+    }
+
     this.geoJSON = new M.layer.GeoJSON({
       name: "result",
-      crs: "EPSG:4326"
+      source: {
+        crs: {
+          properties: {
+            name: "EPSG:4326"
+          },
+          type: "name"
+        },
+        features: [featJSON],
+        type: "FeatureCollection"
+      }
     });
 
-    this.geoJSON.on(M.evt.LOAD, () => {
-      this.geoJSON.addFeatures(selectedFeatures);
-    });
+    this.geoJSON.setStyle(this.pointStyle);
 
     this.map_.addLayers(this.geoJSON);
 
-    let coor_X = selectedFeatures[0].getGeometry().coordinates[0];
-    let coor_Y = selectedFeatures[0].getGeometry().coordinates[1];
 
-    this.map_.setCenter({
-      x: coor_X,
-      y: coor_Y,
-      draw: false
+    this.geoJSON.on(M.evt.LOAD, () => {
+      this.map_.setBbox(this.geoJSON.getFeaturesExtent());
+      console.log(this.geoJSON.getFeaturesExtent());
+      this.map_.setZoom(9);
     });
-
-    this.map_.setZoom(9);
   }
 }
