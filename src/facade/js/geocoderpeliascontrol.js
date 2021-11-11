@@ -34,11 +34,12 @@ export default class GeocoderpeliasControl extends M.Control {
     this.pointStyle = new M.style.Point({
       radius: 5,
       fill: {
-        color: '#00FF00',
-        opacity: 0.5
+        color: '#458736',
+        opacity: 1
       },
       stroke: {
-        color: '#00FF00'
+        color: '#FFFFFF',
+        width: 2,
       }
     });
 
@@ -132,7 +133,9 @@ export default class GeocoderpeliasControl extends M.Control {
     this.clearButon.addEventListener('click', () => {
       this.inputTextSearch.value = null;
       this.resultPanel.style.display = 'none';
-      // tengo que poner la logica para borrar
+      if (this.geoJSON) {
+        this.map_.removeLayers(this.geoJSON);
+      }
     })
 
     this.searchButon.addEventListener('click', () => {
@@ -140,7 +143,9 @@ export default class GeocoderpeliasControl extends M.Control {
     })
 
     this.resultPanel.addEventListener('click', (e) => {
- 
+      if (this.geoJSON) {
+        this.map_.removeLayers(this.geoJSON);
+      }
       let element = e.target;
       let featureId = element.dataset.feature;
       this.selectRecord(featureId)
@@ -185,20 +190,20 @@ export default class GeocoderpeliasControl extends M.Control {
     let feature = new M.Feature();
     feature.setId(data.properties.id)
     feature.setAttribute('accuracy', data.properties.accuracy);
-    feature.setAttribute('country',data.properties.country);
-    feature.setAttribute('country_a',data.properties.country_a);
-    feature.setAttribute('gid',data.properties.gid);
-    feature.setAttribute('housenumber',data.properties.housenumber);
-    feature.setAttribute('label',data.properties.label);
-    feature.setAttribute('layer',data.properties.layer);
-    feature.setAttribute('localadmin',data.properties.localadmin);
-    feature.setAttribute('locality',data.properties.locality);
-    feature.setAttribute('macroregion',data.properties.macroregion);
-    feature.setAttribute('name',data.properties.name);
-    feature.setAttribute('region',data.properties.region);
-    feature.setAttribute('source',data.properties.source);
-    feature.setAttribute('source_id',data.properties.source_id);
-    feature.setAttribute('street',data.properties.street);
+    feature.setAttribute('country', data.properties.country);
+    feature.setAttribute('country_a', data.properties.country_a);
+    feature.setAttribute('gid', data.properties.gid);
+    feature.setAttribute('housenumber', data.properties.housenumber);
+    feature.setAttribute('label', data.properties.label);
+    feature.setAttribute('layer', data.properties.layer);
+    feature.setAttribute('localadmin', data.properties.localadmin);
+    feature.setAttribute('locality', data.properties.locality);
+    feature.setAttribute('macroregion', data.properties.macroregion);
+    feature.setAttribute('name', data.properties.name);
+    feature.setAttribute('region', data.properties.region);
+    feature.setAttribute('source', data.properties.source);
+    feature.setAttribute('source_id', data.properties.source_id);
+    feature.setAttribute('street', data.properties.street);
     feature.setGeometry(data.geometry)
     feature.setStyle(this.pointStyle)
     return feature
@@ -215,7 +220,7 @@ export default class GeocoderpeliasControl extends M.Control {
           find = true
           this.selectedFeatures.push(element)
           console.log(element.getGeoJSON())
-          
+
           result = this.buildGeoJSON(this.selectedFeatures)
         }
       }
@@ -231,13 +236,19 @@ export default class GeocoderpeliasControl extends M.Control {
 
     this.geoJSON.on(M.evt.LOAD, () => {
       this.geoJSON.addFeatures(selectedFeatures);
-   });
+    });
 
-   this.map_.addLayers(this.geoJSON); 
+    this.map_.addLayers(this.geoJSON);
 
-   console.log(selectedFeatures[0])
-   //this.map.setCenter()
+    let coor_X = selectedFeatures[0].getGeometry().coordinates[0];
+    let coor_Y = selectedFeatures[0].getGeometry().coordinates[1];
 
-    return this.geoJSON
+    this.map_.setCenter({
+      x: coor_X,
+      y: coor_Y,
+      draw: false
+    });
+
+    this.map_.setZoom(10);
   }
 }
