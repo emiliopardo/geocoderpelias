@@ -42,15 +42,10 @@ export default class GeocoderpeliasControl extends M.Control {
       }
     });
 
-    this.geoJSON = new M.layer.GeoJSON({
-      source: {
-        'crs': { 'properties': { 'name': 'EPSG:25830' }, 'type': 'name' },
-        // Se añade su notacion GeoJSON
-        'features': [],
-        'type': 'FeatureCollection'
-      },
-      name: 'prueba'
-    });
+    this.geoJSON = null;
+    this.arrayFeatures = null;
+    this.selectedFeatures = null;
+    this.layer = null;
   }
 
   /**
@@ -129,7 +124,6 @@ export default class GeocoderpeliasControl extends M.Control {
     this.searchButon = html.querySelectorAll('button.m-search-btn')[0]
     this.inputTextSearch = html.querySelectorAll('input[type=text].m-geocoderpelias-input-text')[0];
     this.resultPanel = html.querySelectorAll('div.m-geocoderpelias-result-panel')[0];
-
     // Add Event Listener
     this.inputTextSearch.addEventListener('keypress', () => {
       this.autoCompleteAction(this.inputTextSearch.value)
@@ -138,8 +132,7 @@ export default class GeocoderpeliasControl extends M.Control {
     this.clearButon.addEventListener('click', () => {
       this.inputTextSearch.value = null;
       this.resultPanel.style.display = 'none';
-      this.featuresArray = [];
-      this.map_.removeLayers(this.geoJSON)
+      // tengo que poner la logica para borrar
     })
 
     this.searchButon.addEventListener('click', () => {
@@ -147,43 +140,17 @@ export default class GeocoderpeliasControl extends M.Control {
     })
 
     this.resultPanel.addEventListener('click', (e) => {
-      this.map_.removeLayers(this.geoJSON);
+      if (this.layer) {
+        this.map_.removeLayers(this.geoJSON);
+      }
       let element = e.target;
-      this.inputTextSearch.value = e.target.textContent;
-      let coordinates = element.dataset.coordinates.split(',');
+      let featureId = element.dataset.feature;
+      this.layer = this.selectRecord(featureId)
 
-      let feature = new M.Feature('feature_1', {
-        'type': 'Feature',
-        'id': 'feature_1',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
-        },
-        'properties': {
-          'via': decodeURIComponent(element.dataset.street),
-          'numero': decodeURIComponent(element.dataset.housenumber),
-          'municipio': decodeURIComponent(element.dataset.locality),
-          'provincia': decodeURIComponent(element.dataset.region),
-        }
-      });
-
-
-      feature.setStyle(this.pointStyle);
-      this.geoJSON.addFeatures(feature);
-      this.map_.addLayers(this.geoJSON);
-      this.geoJSON.setStyle(this.pointStyle)
-      console.log(this.geoJSON)
-      this.map_.setCenter({
-        x: this.geoJSON.getFeatures()[0].getGeometry().coordinates[0],
-        y: this.geoJSON.getFeatures()[0].getGeometry().coordinates[1],
-        draw: true
-      });
-
-      this.map_.setZoom(10);
+      console.log(featureId)
+      console.log(this.selectRecord(featureId))
+      //this.map_.addLayers(this.layer); 
     });
-
-
-
   }
 
   autoCompleteAction(value) {
@@ -193,7 +160,6 @@ export default class GeocoderpeliasControl extends M.Control {
     M.remote.get(encodeURI(completeUrl + query)).then((res) => {
       let response = JSON.parse(res.text);
       if (response) {
-        // console.log(response)
         this.parseAutoCompleteResponse(response)
       }
     })
@@ -206,16 +172,107 @@ export default class GeocoderpeliasControl extends M.Control {
   }
 
   parseAutoCompleteResponse(response) {
+    this.arrayFeatures = new Array();
     let htmlParseElement = '<div class="results" id="m-autcomplete">';
     if (response.type == 'FeatureCollection') {
       let features = response.features
       for (let index = 0; index < features.length; index++) {
         const element = features[index];
-        htmlParseElement += '<div class="result autocomplete" data-locality=' + encodeURIComponent(element.properties.locality) + ' data-region=' + encodeURIComponent(element.properties.region) + ' data-street=' + encodeURIComponent(element.properties.street) + ' data-housenumber=' + encodeURIComponent(element.properties.housenumber) + ' data-coordinates=' + element.geometry.coordinates + '><i class="result-icon g-cartografia-pin5"></i>' + element.properties.label + '</div>';
+        this.arrayFeatures.push(this.createFeature(element))
+        htmlParseElement += '<div class="result autocomplete" data-feature="' + element.properties.id + '"><i class="result-icon g-cartografia-pin5"></i>' + element.properties.label + '</div>';
       }
     }
     this.resultPanel.innerHTML = htmlParseElement
     this.resultPanel.innerHTML += '</div>'
     this.showSearchResult();
+  }
+
+  createFeature(data) {
+    let feature = new M.Feature();
+    feature.setId(data.properties.id)
+    feature.setAttribute('accuracy', data.properties.accuracy);
+    feature.setAttribute('country',data.properties.country);
+    feature.setAttribute('country_a',data.properties.country_a);
+    feature.setAttribute('gid',data.properties.gid);
+    feature.setAttribute('housenumber',data.properties.housenumber);
+    feature.setAttribute('label',data.properties.label);
+    feature.setAttribute('layer',data.properties.layer);
+    feature.setAttribute('localadmin',data.properties.localadmin);
+    feature.setAttribute('locality',data.properties.locality);
+    feature.setAttribute('macroregion',data.properties.macroregion);
+    feature.setAttribute('name',data.properties.name);
+    feature.setAttribute('region',data.properties.region);
+    feature.setAttribute('source',data.properties.source);
+    feature.setAttribute('source_id',data.properties.source_id);
+    feature.setAttribute('street',data.properties.street);
+    feature.setGeometry(data.geometry)
+    feature.setStyle(this.pointStyle)
+    return feature
+
+
+    // let feature = new M.Feature(data.properties.id, {
+    //   "type": "Feature",
+    //   "id": data.properties.id,
+    //   "geometry": {
+    //     "type": data.geometry.type,
+    //     "coordinates": [parseFloat(data.geometry.coordinates[0]), parseFloat(data.geometry.coordinates[1])]
+    //   },
+    //   "geometry_name": "geometry",
+    //   "properties": {
+    //     'accuracy': data.properties.accuracy,
+    //     'country': data.properties.country,
+    //     'country_a': data.properties.country_a,
+    //     'gid': data.properties.gid,
+    //     'housenumber': data.properties.housenumber,
+    //     'label': data.properties.label,
+    //     'layer': data.properties.layer,
+    //     'localadmin': data.properties.localadmin,
+    //     'locality': data.properties.locality,
+    //     'macroregion': data.properties.macroregion,
+    //     'name': data.properties.name,
+    //     'region': data.properties.region,
+    //     'source': data.properties.source,
+    //     'source_id': data.properties.source_id,
+    //     'street': data.properties.street,
+    //   }
+    // });
+
+    // return feature
+  }
+
+  selectRecord(value) {
+    let find = false;
+    let result = null;
+    this.selectedFeatures = new Array();
+    do {
+      for (let index = 0; index < this.arrayFeatures.length; index++) {
+        const element = this.arrayFeatures[index];
+        if (element.getId() == value) {
+          find = true
+          this.selectedFeatures.push(element)
+          console.log(element.getGeoJSON())
+          
+          result = this.buildGeoJSON(this.selectedFeatures)
+        }
+      }
+    } while (!find);
+    return result;
+  }
+
+  buildGeoJSON(selectedFeatures) {
+    this.geoJSON = new M.layer.GeoJSON({
+      name: "result",
+      crs: "4326"
+    });
+
+    this.geoJSON.on(M.evt.LOAD, () => {
+      this.geoJSON.addFeatures(selectedFeatures);
+
+      this.map_.addLayers(this.geoJSON); 
+
+   });
+
+    //this.geoJSON.addFeatures(selectedFeatures)
+    return this.geoJSON
   }
 }
