@@ -249,6 +249,6 @@ export default class GeocoderpeliasControl extends M.Control {
       draw: false
     });
 
-    this.map_.setZoom(10);
+    this.map_.setZoom(9);
   }
 }
