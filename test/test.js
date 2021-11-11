@@ -10,12 +10,33 @@ const ortofoto2016_color = new M.layer.WMS({
   styles: 'default'
 })
 
+
+// const cdauBase = new M.layer.WMS({
+//   url: 'http://www.callejerodeandalucia.es/servicios/base/wms?',
+//   name: 'CDAU_base',
+//   legend: 'Base Cartográfica CDAU',
+//   transparent: false,
+//   tiled: true
+// })
+
+
+const cdauViasPortales = new M.layer.WMS({
+  url: 'http://www.callejerodeandalucia.es/servicios/cdau/wms?',
+  name: 'CDAU_wms',
+  legend: 'Vías y Portales CDAU)',
+  transparent: true,
+  tiled: true
+})
+
+
 const map = M.map({
   container: 'mapjs',
   layers: [
-    ortofoto2016_color
+    ortofoto2016_color,
+    //cdauBase,
+    cdauViasPortales
   ],
-  controls: ['Panzoombar','layerswitcher','mouse', 'scale', 'scaleline'],
+  controls: ['Panzoombar', 'layerswitcher', 'mouse', 'scale', 'scaleline'],
   //projection: "EPSG:25830*m",
   projection: "EPSG:4326*d",
 });
