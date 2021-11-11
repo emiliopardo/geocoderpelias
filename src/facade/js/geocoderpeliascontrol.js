@@ -140,16 +140,10 @@ export default class GeocoderpeliasControl extends M.Control {
     })
 
     this.resultPanel.addEventListener('click', (e) => {
-      if (this.layer) {
-        this.map_.removeLayers(this.geoJSON);
-      }
+ 
       let element = e.target;
       let featureId = element.dataset.feature;
-      this.layer = this.selectRecord(featureId)
-
-      console.log(featureId)
-      console.log(this.selectRecord(featureId))
-      //this.map_.addLayers(this.layer); 
+      this.selectRecord(featureId)
     });
   }
 
@@ -208,36 +202,6 @@ export default class GeocoderpeliasControl extends M.Control {
     feature.setGeometry(data.geometry)
     feature.setStyle(this.pointStyle)
     return feature
-
-
-    // let feature = new M.Feature(data.properties.id, {
-    //   "type": "Feature",
-    //   "id": data.properties.id,
-    //   "geometry": {
-    //     "type": data.geometry.type,
-    //     "coordinates": [parseFloat(data.geometry.coordinates[0]), parseFloat(data.geometry.coordinates[1])]
-    //   },
-    //   "geometry_name": "geometry",
-    //   "properties": {
-    //     'accuracy': data.properties.accuracy,
-    //     'country': data.properties.country,
-    //     'country_a': data.properties.country_a,
-    //     'gid': data.properties.gid,
-    //     'housenumber': data.properties.housenumber,
-    //     'label': data.properties.label,
-    //     'layer': data.properties.layer,
-    //     'localadmin': data.properties.localadmin,
-    //     'locality': data.properties.locality,
-    //     'macroregion': data.properties.macroregion,
-    //     'name': data.properties.name,
-    //     'region': data.properties.region,
-    //     'source': data.properties.source,
-    //     'source_id': data.properties.source_id,
-    //     'street': data.properties.street,
-    //   }
-    // });
-
-    // return feature
   }
 
   selectRecord(value) {
@@ -262,17 +226,18 @@ export default class GeocoderpeliasControl extends M.Control {
   buildGeoJSON(selectedFeatures) {
     this.geoJSON = new M.layer.GeoJSON({
       name: "result",
-      crs: "4326"
+      crs: "EPSG:4326"
     });
 
     this.geoJSON.on(M.evt.LOAD, () => {
       this.geoJSON.addFeatures(selectedFeatures);
-
-      this.map_.addLayers(this.geoJSON); 
-
    });
 
-    //this.geoJSON.addFeatures(selectedFeatures)
+   this.map_.addLayers(this.geoJSON); 
+
+   console.log(selectedFeatures[0])
+   //this.map.setCenter()
+
     return this.geoJSON
   }
 }
