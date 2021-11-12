@@ -47,6 +47,7 @@ export default class GeocoderpeliasControl extends M.Control {
     this.arrayFeatures = null;
     this.selectedFeatures = null;
     this.layer = null;
+    this.timer = null;
   }
 
   /**
@@ -127,7 +128,7 @@ export default class GeocoderpeliasControl extends M.Control {
     this.resultPanel = html.querySelectorAll('div.m-geocoderpelias-result-panel')[0];
     // Add Event Listener
     this.inputTextSearch.addEventListener('keypress', () => {
-      this.autoCompleteAction(this.inputTextSearch.value)
+      this.delayQuery(this.autoCompleteAction(this.inputTextSearch.value),5000);
     })
 
     this.clearButon.addEventListener('click', () => {
@@ -216,8 +217,6 @@ export default class GeocoderpeliasControl extends M.Control {
         if (element.getId() == value) {
           find = true
           this.selectedFeatures.push(element)
-          console.log(element.getGeoJSON())
-
           result = this.buildGeoJSON(this.selectedFeatures)
         }
       }
@@ -250,11 +249,17 @@ export default class GeocoderpeliasControl extends M.Control {
 
     this.map_.addLayers(this.geoJSON);
 
-
     this.geoJSON.on(M.evt.LOAD, () => {
       this.map_.setBbox(this.geoJSON.getFeaturesExtent());
-      console.log(this.geoJSON.getFeaturesExtent());
       this.map_.setZoom(9);
     });
+  }
+
+  delayQuery() {
+    let timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
   }
 }

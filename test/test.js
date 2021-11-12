@@ -11,13 +11,15 @@ const ortofoto2016_color = new M.layer.WMS({
 })
 
 
-// const cdauBase = new M.layer.WMS({
-//   url: 'http://www.callejerodeandalucia.es/servicios/base/wms?',
-//   name: 'CDAU_base',
-//   legend: 'Base Cartográfica CDAU',
-//   transparent: false,
-//   tiled: true
-// })
+const cdauBase = new M.layer.WMS({
+  url: 'http://www.callejerodeandalucia.es/servicios/base/wms?',
+  name: 'CDAU_base',
+  legend: 'Base Cartográfica CDAU',
+  transparent: false,
+  tiled: true
+})
+
+
 
 
 const cdauViasPortales = new M.layer.WMS({
@@ -32,14 +34,16 @@ const cdauViasPortales = new M.layer.WMS({
 const map = M.map({
   container: 'mapjs',
   layers: [
+    cdauBase,
     ortofoto2016_color,
-    //cdauBase,
     cdauViasPortales
   ],
   controls: ['Panzoombar', 'layerswitcher', 'mouse', 'scale', 'scaleline'],
   projection: "EPSG:25830*m",
   //projection: "EPSG:4326*d",
 });
+
+map.setMaxExtent ([100401,3987100,621273,4288700]);
 
 const configPelias = {
   url: 'https://geocoder-5-ign.larioja.org/v1/'
