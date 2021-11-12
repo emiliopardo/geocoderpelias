@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejemplo geocoderpelias</title>
+    <!-- Mapea fichero estilos -->
+    <link href="https://mapea4-sigc.juntadeandalucia.es/assets/css/mapea-6.0.0.ol.min.css" rel="stylesheet" />
+
+    <!-- Mapea ficheros javascript -->
+    <script type="text/javascript" src="https://mapea4-sigc.juntadeandalucia.es/js/mapea-6.0.0.ol.min.js"></script>
+    <script type="text/javascript" src="https://mapea4-sigc.juntadeandalucia.es/js/configuration-6.0.0.js"></script>
+
+    <!-- Plugin searchStreet-->
+    <link href="https://mapea4-sigc.juntadeandalucia.es/plugins/searchstreet/searchstreet-2.0.1.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://mapea4-sigc.juntadeandalucia.es/plugins/searchstreet/searchstreet-2.0.1.ol.min.js"></script>
+
+    <!-- Plugin geocoderpelias-->
+    <script type="text/javascript" src="https://emiliopardo.github.io/geocoderpelias/geocoderpelias.ol.min.js"></script>
+    <link href="https://emiliopardo.github.io/geocoderpelias/geocoderpelias.ol.min.css" rel="stylesheet" />
+
+    <!-- Plugin simplebaselayerselector-->
+    <script type="text/javascript"
+    src="https://emiliopardo.github.io/simplebaselayerselector/simplebaselayerselector.ol.min.js"></script>
+    <link href="https://emiliopardo.github.io/simplebaselayerselector/simplebaselayerselector.ol.min.css"
+        rel="stylesheet" />
+
+
+    <style>
+        html,
+        body,
+        #map {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+<script type="text/javascript">
+    const ortofoto2016_color = new M.layer.WMS({
+        url: 'http://www.ideandalucia.es/wms/ortofoto2016?',
+        name: 'ortofotografia_2016_rgb',
+        legend: 'Ortofotografía Color 0,5 metros/pixel (Año 2016)',
+        transparent: false,
+        tiled: true
+    }, {
+        styles: 'default'
+    })
+
+    ortofoto2016_color.setLegendURL('https://www.ideandalucia.es/visor/leyendas/ortofoto2016_color.png')
+
+    const mdt_siose2013 = new M.layer.WMS({
+        url: 'https://www.ideandalucia.es/wms/siose_2013?',
+        name: 'sombreado_siose_2013',
+        legend: 'Siose + MDT 2013',
+        transparent: false,
+        tiled: true
+    }, {
+        styles: 'default'
+    })
+
+    mdt_siose2013.setLegendURL('https://www.ideandalucia.es/visor/leyendas/siose_2013.png');
+
+    const cdauBase = new M.layer.WMS({
+        url: 'http://www.callejerodeandalucia.es/servicios/base/wms?',
+        name: 'CDAU_base',
+        legend: 'Base Cartográfica CDAU',
+        transparent: false,
+        tiled: true
+    })
+
+    cdauBase.setLegendURL('https://www.ideandalucia.es/visor/leyendas/cdau_base.png');
+
+
+    const cdauViasPortales = new M.layer.WMS({
+        url: 'http://www.callejerodeandalucia.es/servicios/cdau/wms?',
+        name: 'CDAU_wms',
+        legend: 'Vías y Portales CDAU)',
+        transparent: true,
+        tiled: true
+    })
+
+
+    const map = M.map({
+        container: 'map',
+        layers: [
+            cdauBase,
+            ortofoto2016_color,
+            mdt_siose2013,
+            cdauViasPortales
+        ],
+    });
+
+    map.addControls(['scaleline', 'mouse', 'OverviewMap', 'panzoombar']);
+    map.setMaxExtent([100401, 3987100, 621273, 4288700]);
+
+    const configPelias = {
+        url: 'https://geocoder-5-ign.larioja.org/v1/'
+    }
+
+
+
+    const geocoderPelias = new M.plugin.Geocoderpelias(configPelias);
+    const baselayerSelector = new M.plugin.Simplebaselayerselector();
+
+    map.addPlugin(geocoderPelias);
+    map.addPlugin(baselayerSelector);
+    map.addPlugin(new M.plugin.Searchstreet({}));
+</script>
+
+</html>
