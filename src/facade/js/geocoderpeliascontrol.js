@@ -226,7 +226,6 @@ export default class GeocoderpeliasControl extends M.Control {
   }
 
   createFeature(data) {
-    console.log(data)
     let feature = new M.Feature();
     feature.setId(data.properties.id)
     if (data.properties.layer == 'street') {
