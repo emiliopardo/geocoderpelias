@@ -34,8 +34,8 @@ const mp = new Geocoderpelias(configGeocoderpelias);
 map.addPlugin(mp);
 ```
 <!-- ## Visor Demo
-Para comprobar el funcionamiento de este plugin se puede acceder al siguiente enlace [Ejemplo Visor](https://emiliopardo.github.io/mapheader/).
+Para comprobar el funcionamiento de este plugin se puede acceder al siguiente enlace [Ejemplo Visor](https://emiliopardo.github.io/mapheader/). -->
 
 ## Video Demo
 
-Para comprobar el funcionamiento de este plugin se puede descargar el [Video](https://github.com/emiliopardo/mapheader/blob/main/docs/video/mapHeader.webm?raw=true) el cual contempla la configuración y carga del plugin con diferentes cabeceras de páginas -->
+Para comprobar el funcionamiento de este plugin se puede descargar el [Video](https://github.com/emiliopardo/geocoderpelias/blob/main/docs/video/geocoderpelias.mp4?raw=true) el cual contempla la configuración y carga del plugin
