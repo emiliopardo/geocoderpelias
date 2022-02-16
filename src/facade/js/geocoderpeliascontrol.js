@@ -215,7 +215,8 @@ export default class GeocoderpeliasControl extends M.Control {
           } else {
             htmlParseElement += '<div class="result autocomplete" data-feature="' + element.properties.id + '"><i class="result-icon g-cartografia-pin"></i>' + element.properties.label + '</div>';
           }
-
+        }else {
+          htmlParseElement += '<div class="result autocomplete" data-feature="' + element.properties.id + '"><i class="result-icon g-cartografia-pin"></i>' + element.properties.label + '</div>';
         }
       }
       this.resultPanel.innerHTML = htmlParseElement
