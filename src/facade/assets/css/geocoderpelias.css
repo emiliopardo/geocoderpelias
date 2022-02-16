@@ -1,14 +1,35 @@
+@font-face {
+  font-family: 'geocoderpelias';
+  src: url('../fonts/geocoderpelias.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="geocoder-"],
+[class*=" geocoder-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'geocoderpelias' !important;
+    font-size: 30px !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: middle;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 /** Estilos sobreescritos */
 .g-cartografia-flecha-izquierda {
   color: #00796b !important;
 }
-/* .g-cartografia-flecha-derecha {
-  color: #536DFE !important;
-} */
 .m-control.activated > button {
   color: #6c6c6c !important;
 }
-
 /** Estilos propios*/
 
 .m-areas > div.m-area > div.m-panel.opened > button.m-panel-btn {
@@ -97,13 +118,91 @@ div.m-geocoderpelias-result-panel>div.results>div.result.autocomplete {
   padding: 7px;
   border: 1px solid #EBF1EB;
   cursor: pointer;
+  vertical-align: middle;
+  line-height: 20px;
 }
+
 
 div.m-geocoderpelias-result-panel>div.results>div.result.autocomplete:hover {
   background-color: #eee;
 }
 
 .result-icon{
-  padding: 5px !important;
+  padding: 0px 5px 0px 0px !important;
 
+}
+
+.geocoder-agricultura-ganaderia-pesca:before{
+  content:"\0061";
+}
+
+.geocoder-cultura:before{
+  content:"\0062";
+}
+
+.geocoder-empleo:before{
+  content:"\0063";
+}
+
+.geocoder-empresas-profesionales:before{
+  content:"\0064";
+}
+
+.geocoder-estudiar:before{
+  content:"\0065";
+}
+
+.geocoder-industria-minas:before{
+  content:"\0067";
+}
+
+.geocoder-investigacion-innovacion:before{
+  content:"\0068";
+}
+
+.geocoder-justicia-seguridad-emergencias:before{
+  content:"\0066";
+}
+
+.geocoder-medio-ambiente:before{
+  content:"\0069";
+}
+
+.geocoder-nuevas-tecnologias:before{
+  content:"\006A";
+}
+
+.geocoder-otros:before{
+  content:"\006B";
+}
+
+.geocoder-portal:before{
+  content:"\006C";
+}
+
+.geocoder-salud:before{
+  content:"\006D";
+}
+
+.geocoder-sedes-ja{
+  color:#00796b !important;
+}
+.geocoder-sedes-ja:before{
+  content:"\006E";
+}
+
+.geocoder-servicios-sociales:before{
+  content:"\006F";
+}
+
+.geocoder-trafico-transportes:before{
+  content:"\0070";
+}
+
+.geocoder-turismo:before{
+  content:"\0071";
+}
+
+.geocoder-via:before{
+  content:"\0072";
 }

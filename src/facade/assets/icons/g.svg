@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   aria-hidden="true"
+   focusable="false"
+   data-prefix="fas"
+   data-icon="industry"
+   class="svg-inline--fa fa-industry"
+   role="img"
+   viewBox="0 0 640 640"
+   version="1.1"
+   id="svg54"
+   sodipodi:docname="industria_minas.svg"
+   width="640"
+   height="640"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata60">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs58" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1031"
+     id="namedview56"
+     showgrid="false"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="-1.6271186"
+     inkscape:cy="256"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg54" />
+  <path
+     d="m 160,96 c 17.7,0 32,14.33 32,32 V 279.4 L 348.6,195 c 16,-8.6 35.4,3 35.4,21.2 v 63.2 L 540.6,195 c 16,-8.6 35.4,3 35.4,21.2 V 496 c 0,26.5 -21.5,48 -48,48 H 112 C 85.49,544 64,522.5 64,496 V 128 C 64,110.33 78.33,96 96,96 Z"
+     id="path52"
+     inkscape:connector-curvature="0"
+     style="fill:currentColor" />
+</svg>

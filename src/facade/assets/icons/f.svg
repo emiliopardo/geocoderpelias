@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   aria-hidden="true"
+   focusable="false"
+   data-prefix="fas"
+   data-icon="gavel"
+   class="svg-inline--fa fa-gavel"
+   role="img"
+   viewBox="0 0 640 640"
+   version="1.1"
+   id="svg74"
+   sodipodi:docname="justicia_seguridad_emergencias.svg"
+   width="640"
+   height="640"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata80">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs78" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1031"
+     id="namedview76"
+     showgrid="false"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="-33.627119"
+     inkscape:cy="256"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg74" />
+  <path
+     d="m 575.9875,280.3 c 0,-6.125 -2.344,-12.25 -7.031,-16.93 l -22.669,-22.57 c -4.688,-4.686 -10.84,-7.028 -16.1,-7.028 -5.26,0 -12.31,2.343 -16.1,7.028 l -5.625,5.625 -114.875,-113.145 5.625,-5.625 c 4.687,-4.688 7.03,-10.84 7.03,-16.1 0,-5.26 -2.343,-12.31 -7.03,-16.1 l -22.62,-22.62 C 371.8875,66.344 365.7875,64 359.6875,64 c -6.1,0 -12.15,2.344 -16.84,7.031 L 218.1875,195.5 c -4.6,4.7 -7,10.8 -7,17 0,6.2 2.344,12.25 7.031,16.94 l 22.62,22.62 c 4.688,4.688 10.84,7.031 16.1,7.031 6.156,0 12.31,-2.344 16.1,-7.031 l 5.625,-5.625 113.1,113.1 -5.625,5.621 c -4.688,4.688 -7.031,10.84 -7.031,16.1 0,5.26 2.344,12.31 7.031,16.1 l 22.62,22.62 c 4.688,4.688 10.81,7.031 16.94,7.031 6.13,0 12.25,-2.344 16.94,-7.031 l 124.5,-124.6 c 6.549,-2.876 8.849,-8.876 8.849,-15.076 z m -284.2,21.8 -58.4,59.3 c -6.3,-6.3 -14.5,-9.4 -22.7,-9.4 -8.2,0 -16.3,3.1 -22.6,9.4 l -114.7,114.7 c -6.25,6.248 -9.375,14.43 -9.375,22.62 0,8.19 3.125,16.37 9.375,22.62 l 45.25,45.25 c 6.22,6.31 14.41,9.41 22.6,9.41 8.19,0 16.37,-3.125 22.62,-9.375 l 114.7,-114.7 c 6.25,-6.25 9.376,-14.44 9.376,-22.62 0,-8.185 -3.125,-16.37 -9.374,-22.62 l 58.43,-58.43 z"
+     id="path72"
+     inkscape:connector-curvature="0"
+     style="fill:currentColor" />
+</svg>
