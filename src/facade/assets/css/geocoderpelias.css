@@ -48,6 +48,8 @@
 
 .m-areas > div.m-area > div.m-panel.m-geocoderpelias.collapsed {
   height: 40px !important;
+  order: -100 !important;
+  -webkit-order: -100 !important;
 }
 
 .m-areas > div.m-area > div.m-panel.m-geocoderpelias.opened {
@@ -56,6 +58,9 @@
   box-shadow: none !important;
   width: 40vw !important;
   margin-right: 0px !important;
+  margin-left: 0px !important;
+  order: -100 !important;
+  -webkit-order: -100 !important;
 }
 
 .m-areas
@@ -101,7 +106,7 @@ div.m-geocoderpelias > input.m-input-search {
   background-color: #F9F9F9;
   z-index: 1000;
   position: absolute !important;
-  width: 99%;
+  width: calc(40vw - 40px);
 }
 
 div.m-geocoderpelias-result-panel>div.results {
