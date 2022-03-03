@@ -16,7 +16,7 @@ export default class Geocoderpelias extends M.Plugin {
    * @param {Object} impl implementation object
    * @api stable
    */
-  constructor(config) {
+  constructor(parameters) {
     super();
     /**
      * Facade of the map
@@ -31,7 +31,16 @@ export default class Geocoderpelias extends M.Plugin {
      * @type {Array<M.Control>}
      */
     this.controls_ = [];
-    this.config = config
+    this.config_ = parameters.config
+    this.options_ = parameters.options
+
+    this.position_ = this.options_.position || 'TL';
+
+    if (this.position_ === 'TL' || this.position_ === 'BL') {
+      this.positionClass_ = 'left';
+    } else {
+      this.positionClass_ = 'right';
+    }
 
     /**
      * Metadata from api.json
@@ -50,14 +59,14 @@ export default class Geocoderpelias extends M.Plugin {
    * @api stable
    */
   addTo(map) {
-    this.control_ = new GeocoderpeliasControl(this.config)
+    this.control_ = new GeocoderpeliasControl(this.config_)
     this.controls_.push(this.control_);
     this.map_ = map;
     // panel para agregar control - no obligatorio
     this.panel_ = new M.ui.Panel('panelGeocoderpelias', {
       collapsible: true,
-      className: 'm-geocoderpelias',
-      position: M.ui.position.TR,
+      className: `m-geocoderpelias ${this.positionClass_}`,
+      position: M.ui.position[this.position_],
       collapsedButtonClass: 'g-cartografia-prismaticos',
     });
     this.panel_.addControls(this.controls_);
