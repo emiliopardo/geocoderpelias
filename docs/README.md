@@ -12,11 +12,17 @@ Para el correcto funcionamiento del plugin es necesario pasarle en su constructo
 ### Parámetros del plugin
 
 ```javascript
-const configGeocoderpelias = {
-  url: 'http://localhost:4000/v1/'
+const configPelias = {
+  options: {
+    position: 'TL'
+  },
+  config: {
+    url: 'http://localhost:4000/v1/'
+  }
 }
 ```
 
+- **position [string]:**  posicionamiento del plugin. Admite ['TL','TR','BL','BR']
 - **url [string]:**  url del endpoint de pelias
 
 ## Recursos y configuración
@@ -26,8 +32,13 @@ const configGeocoderpelias = {
 
 ```javascript
 
-const configGeocoderpelias = {
-  url: 'http://localhost:4000/v1/'
+const configPelias = {
+  options: {
+    position: 'TL'
+  },
+  config: {
+    url: 'http://localhost:4000/v1/'
+  }
 }
 
 const mp = new Geocoderpelias(configGeocoderpelias);
