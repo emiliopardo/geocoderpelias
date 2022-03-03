@@ -127,8 +127,13 @@ const baseLayerSelector = new M.plugin.Simplebaselayerselector(configSimpleBaseL
 
 
 const configPelias = {
-  //url: 'http://geocoder-5-ign.larioja.org/v1/'
-  url: 'http://localhost:4000/v1/'
+  options: {
+    position: 'TR'
+  },
+  config: {
+    //url: 'http://geocoder-5-ign.larioja.org/v1/'
+    url: 'http://localhost:4000/v1/'
+  }
 }
 
 const mp = new Geocoderpelias(configPelias);
