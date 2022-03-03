@@ -83,4 +83,8 @@ export default class Geocoderpelias extends M.Plugin {
   getMetadata(){
     return this.metadata_;
   }
+
+  get name(){
+    return 'geocoderpelias'
+  }
 }
